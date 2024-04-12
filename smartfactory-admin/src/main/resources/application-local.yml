@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: admin-service
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: jwtClient
+            client-secret: jwtClientSecret
+            clientName: smartfactory
+            authorization-grant-type: authorization_code
+            redirectUri: '{baseUrl}/login/oauth2/code/{registrationId}'
+            scope:
+              - openid
+              - profile
+              - email
+        provider:
+          keycloak:
+            authorization-uri: http://192.168.1.5:8083/auth/realms/smartfactory/protocol/openid-connect/auth
+            token-uri: http://192.168.1.5:8083/auth/realms/smartfactory/protocol/openid-connect/token
+            user-info-uri: http://192.168.1.5:8083/auth/realms/smartfactory/protocol/openid-connect/userinfo
+            jwk-set-uri: http://192.168.1.5:8083/auth/realms/smartfactory/protocol/openid-connect/certs
+            user-name-attribute: preferred_username
+  boot:
+    admin:
+      client:
+        auto-registration: false
+      notify:
+        slack:
+          enabled: true
+          webhook-url: ${SLACK_HOOKS}
+          channel: smartfactory
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+server:
+  port: 8100
+
+eureka:
+  instance:
+    prefer-ip-address: false
+  client:
+    serviceUrl:
+      defaultZone: http://discUser:discPassword@192.168.1.5:8761/eureka

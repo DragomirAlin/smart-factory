@@ -1,0 +1,5 @@
+{
+  "KEYCLOAK_URL": "http://192.168.49.2",
+  "KEYCLOAK_REALM": "smartfactory",
+  "KEYCLOAK_CLIENT_ID": "jwtclient"
+}

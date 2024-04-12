@@ -1,0 +1,567 @@
+openapi: 3.0.1
+info:
+  title: Smart Factory IoT
+  version: 1.0.0
+  contact:
+    name: Dragomir Alin
+  description: Smart Factory IoT
+
+servers:
+  - url: http://{host}/{base}
+    description: local environment
+    variables:
+      host:
+        default: 'localhost:8080'
+      base:
+        default: 'api/v1'
+
+tags:
+  - name: Acquisition
+    description: Acquisition resource endpoint
+  - name: Notification
+    description: Notification resource endpoint
+  - name: Subscription
+    description: Subscription resource endpoint
+
+security:
+  - oAuth:
+      - write
+      - read
+paths:
+  /acquisition/mqtt/:
+    get:
+      tags:
+        - Acquisition
+      summary: test endpoint
+      description: test endpoint
+      operationId: testAcquisition
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /acquisition/mqtt/publish:
+    post:
+      tags:
+        - Acquisition
+      summary: publish a message
+      description: publish a message
+      operationId: publish
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Message'
+      responses:
+         '201':
+           $ref: '#/components/responses/Created'
+         '400':
+           $ref: '#/components/responses/BadRequest'
+         '401':
+           $ref: '#/components/responses/Unauthorized'
+         '403':
+           $ref: '#/components/responses/Unauthorized'
+         '404':
+           $ref: '#/components/responses/NotFound'
+         '500':
+           $ref: '#/components/responses/ServerError'
+  /acquisition/mqtt/subscribe:
+    post:
+      tags:
+        - Acquisition
+      summary: subscribe to a topic
+      description: subscribe topic
+      operationId: subscribe
+      parameters:
+        - in: query
+          name: topic
+          required: true
+          schema:
+            type: string
+      responses:
+         '201':
+           $ref: '#/components/responses/Created'
+         '400':
+           $ref: '#/components/responses/BadRequest'
+         '401':
+           $ref: '#/components/responses/Unauthorized'
+         '403':
+           $ref: '#/components/responses/Unauthorized'
+         '404':
+           $ref: '#/components/responses/NotFound'
+         '500':
+           $ref: '#/components/responses/ServerError'
+  /acquisition/mqtt/unsubscribe:
+    delete:
+      tags:
+        - Acquisition
+      summary: unsubscribe to a topic
+      description: unubscribe topic
+      operationId: unsubscribe
+      parameters:
+        - in: query
+          name: topic
+          required: true
+          schema:
+            type: string
+      responses:
+         '400':
+           $ref: '#/components/responses/BadRequest'
+         '401':
+           $ref: '#/components/responses/Unauthorized'
+         '403':
+           $ref: '#/components/responses/Unauthorized'
+         '404':
+           $ref: '#/components/responses/NotFound'
+         '500':
+           $ref: '#/components/responses/ServerError'
+  /acquisition/mqtt/data:
+    get:
+      tags:
+        - Acquisition
+      summary: get all data
+      description: return a list of all data from db
+      operationId: getData
+      parameters:
+        - in: query
+          name: page
+          required: false
+          schema:
+            type: number
+        - in: query
+          name: size
+          required: false
+          schema:
+            type: number
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Data'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /acquisition/mqtt/data/{topic}:
+    get:
+      tags:
+        - Acquisition
+      summary: get all data by topic
+      description: return a list of all data by topic from db
+      operationId: getDataByTopic
+      parameters:
+        - in: path
+          name: topic
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Data'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+          
+  /notification/notification:
+    get:
+      tags:
+        - Notification
+      summary: test endpoint
+      description: test endpoint
+      operationId: testNotification
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /notification/notification/mail:
+    post:
+      tags:
+        - Notification
+      summary: send mail
+      description: send mail
+      operationId: sendMail
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Mail'
+      responses:
+         '201':
+           $ref: '#/components/responses/Created'
+         '400':
+           $ref: '#/components/responses/BadRequest'
+         '401':
+           $ref: '#/components/responses/Unauthorized'
+         '403':
+           $ref: '#/components/responses/Unauthorized'
+         '404':
+           $ref: '#/components/responses/NotFound'
+         '500':
+           $ref: '#/components/responses/ServerError'
+  /notification/notification/sms:
+    post:
+      tags:
+        - Notification
+      summary: send sms
+      description: send sms
+      operationId: sendSMS
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Sms'
+      responses:
+         '201':
+           $ref: '#/components/responses/Created'
+         '400':
+           $ref: '#/components/responses/BadRequest'
+         '401':
+           $ref: '#/components/responses/Unauthorized'
+         '403':
+           $ref: '#/components/responses/Unauthorized'
+         '404':
+           $ref: '#/components/responses/NotFound'
+         '500':
+           $ref: '#/components/responses/ServerError'
+  /subscription/subscription:
+    get:
+      tags:
+        - Subscription
+      summary: test endpoint
+      description: test endpoint
+      operationId: testSubscription
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Response'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags:
+        - Subscription
+      summary: add subscription
+      description: add subscription
+      operationId: addSubscription
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Subscription'
+      responses:
+         '201':
+           $ref: '#/components/responses/Created'
+         '400':
+           $ref: '#/components/responses/BadRequest'
+         '401':
+           $ref: '#/components/responses/Unauthorized'
+         '403':
+           $ref: '#/components/responses/Unauthorized'
+         '404':
+           $ref: '#/components/responses/NotFound'
+         '500':
+           $ref: '#/components/responses/ServerError'
+  /subscription/subscription/all:
+    get:
+      tags:
+        - Subscription
+      summary: get all subscriptions
+      description: get all subscriptions
+      operationId: getSubscriptions
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subscription'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /subscription/subscription/{id}:
+    get:
+      tags:
+        - Subscription
+      summary: get subscription
+      description: get subscription
+      operationId: getSubscription
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subscription'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    delete:
+      tags:
+        - Subscription
+      summary: delete subscription
+      description: delete subscription
+      operationId: deleteSubscription
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+         '201':
+           $ref: '#/components/responses/Created'
+         '400':
+           $ref: '#/components/responses/BadRequest'
+         '401':
+           $ref: '#/components/responses/Unauthorized'
+         '403':
+           $ref: '#/components/responses/Unauthorized'
+         '404':
+           $ref: '#/components/responses/NotFound'
+         '500':
+           $ref: '#/components/responses/ServerError'
+           
+components:
+  responses:
+    Created:
+      description: created with success
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Created'
+    NotFound:
+      description: not found
+    Unauthorized:
+      description: unauthorized
+    BadRequest:
+      description: bad request
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Validation'
+    ServerError:
+      description: internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  requestBodies:
+    PatchBody:
+      description: A message in JsonPatch format
+      required: true
+      content:
+        application/json-patch+json:
+          schema:
+            $ref: '#/components/schemas/PatchBody'
+  schemas:
+    Created:
+      type: object
+      properties:
+        id:
+          type: string
+    PatchBody:
+      items:
+        $ref: '#/components/schemas/JsonPatch'
+    JsonPatch:
+      type: object
+      description: A JSONPatch document as defined by RFC 6902.
+      required:
+        - 'op'
+        - 'path'
+        - 'value'
+      properties:
+        op:
+          type: string
+          description: The operation to be performed
+        path:
+          type: string
+          description: A JSON-Pointer
+        value:
+          type: object
+          description: The value to be used within the operations.
+        from:
+          type: string
+          description: A string containing a JSON Pointer value.
+    Validation:
+      type: object
+      properties:
+        code:
+          type: string
+        field:
+          type: string
+        description:
+          type: string
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+    Response:
+      type: object
+      properties:
+        response:
+          type: string
+          description: response
+    Data:
+      type: object
+      properties:
+        id:
+          type: string
+        topic:
+          type: string
+        payload:
+          type: object
+        arriveAt:
+          type: string
+    Message:
+      type: object
+      properties:
+        topic:
+          type: string
+        message:
+          type: string
+        retained: 
+          type: boolean
+        qos:
+          type: number
+    Mail:
+      type: object
+      properties:
+        mailFrom:
+          type: string
+        mailTo:
+          type: string
+        mailCC:
+          type: string
+        mailBcc:
+          type: string
+        mailSubject:
+          type: string
+        mailContent:
+          type: string
+        contentType:
+          type: string
+    Sms:
+      type: object
+      properties:
+        numberTo: 
+          type: string
+        message:
+          type: string
+    Subscription:
+      type: object
+      properties:
+        id:
+          type: string
+        macAddress:
+          type: string
+        acquisitionType:
+          type: string
+        device:
+          type: string
+        customMonitor:
+          type: object
+        notificationDetails:
+          type: object
+
+  securitySchemes:
+    oAuth:
+      type: oauth2
+      description: This API uses OAuth2 with the password flow
+      flows:
+        password:
+          tokenUrl: /oauth/token
+          scopes:
+            read: get information from the API
+            write: use the API to make changes to the supporting data model

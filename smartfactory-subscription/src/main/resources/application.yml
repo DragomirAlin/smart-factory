@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: subscription
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuerUri: ${KEYCLOAK_URL}/auth/realms/master
+          jwkSetUri: ${KEYCLOAK_URL}/auth/realms/master/protocol/openid-connect/certs
+  data:
+    mongodb:
+      uri: ${MONGODB_URI}
+  rabbitmq:
+    host: ${RABBITMQ_HOST}
+    port: ${RABBITMQ_PORT}
+    username: ${RABBITMQ_USER}
+    password: ${RABBITMQ_PASS}
+server:
+  port: 8005
+smartfactory:
+  rabbitmq:
+    mqtt:
+      acquisition:
+        exchange: mqtt_events
+        queue: mqtt_subscription_queue
+    notification:
+      queue: subscription_notify
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
