@@ -1,9 +1,13 @@
-FROM openjdk:latest
- 
-COPY target/*.jar /srv/
-COPY src/main/resources/application-dev.yml /srv/config/
+# Use the official OpenJDK 21 base image
+FROM azul/zulu-openjdk:21
+# Set the working directory in the container
+WORKDIR /app
 
-EXPOSE 8001
+# Copy the packaged jar file into the container at /app
+COPY target/*.jar /app/user-management-service.jar
 
-ENTRYPOINT ["java","-jar","/srv/user.management-0.0.1-SNAPSHOT.jar", "--spring.config.location=file:/srv/config/application-dev.yml"]
+# Expose the port that the application will run on
+EXPOSE 8081
 
+# Run the jar file
+CMD ["java", "-jar", "user-management-service.jar"]

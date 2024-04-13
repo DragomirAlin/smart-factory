@@ -1,10 +1,10 @@
-package ro.dragomiralin.user.management;
+package ro.dragomiralin.usermanagementservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ApplicationTests {
+class UserManagementServiceApplicationTests {
 
 	@Test
 	void contextLoads() {
