@@ -1,56 +1,6 @@
 spring:
   application:
-    name: notification
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuerUri: ${KEYCLOAK_URL}/auth/realms/master
-          jwkSetUri: ${KEYCLOAK_URL}/auth/realms/master/protocol/openid-connect/certs
-  cloud:
-    loadbalancer:
-      ribbon:
-        enabled: false
-    kubernetes:
-      discovery:
-        all-namespaces: true
-  data:
-    mongodb:
-      uri: ${MONGODB_URI}
-  mail:
-    host: ${MAIL_HOST} # smtp.gmail.com
-    port: ${MAIL_PORT} # 587
-    username: ${MAIL_USER}
-    password: ${MAIL_PASS}
-  rabbitmq:
-    host: ${RABBITMQ_HOST}
-    port: ${RABBITMQ_PORT}
-    username: ${RABBITMQ_USER}
-    password: ${RABBITMQ_PASS}
+    name: notification-service
+
 server:
-  port: 8004
-  # Email Configuration
-smartfactory:
-  emailFrom: ${MAIL_USER}
-  rabbitmq:
-    notification:
-      queue: subscription_notify
-  key:
-twillo:
-  account-sid:
-  auth-token:
-  phone-number:
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-  endpoint:
-    health:
-      show-details: always
-springdoc:
-  packagesToScan: ro.dragomiralin.notification
-
-
-
-
+  port: 8003

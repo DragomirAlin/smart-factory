@@ -1,1 +1,0 @@
-# smartfactory-notification-microservice
