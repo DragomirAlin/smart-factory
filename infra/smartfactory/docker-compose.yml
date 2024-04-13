@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo:latest
+    hostname: mongo
+    container_name: smartfactory
+    restart: on-failure
+    ports:
+      - "27017:27017"
+  keycloak:
+    image: quay.io/keycloak/keycloak:21.0
+    container_name: smartfactory_keycloak
+    command:
+      - start-dev
+    environment:
+      - KEYCLOAK_ADMIN=user
+      - KEYCLOAK_ADMIN_PASSWORD=password
+    ports:
+      - "8083:8080"
+  redis:
+    image: redis:5.0.3-alpine
+    container_name: smartfactory_redis
+    ports:
+      - "6379:6379"
+volumes:
+  db:
+    driver: local

@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  mqtt:
+    image: "eclipse-mosquitto:latest"
+    hostname: mqtt
+    container_name: sfy-mqtt
+    restart: on-failure
+    privileged: true
+    deploy:
+      resources:
+        limits:
+          memory: 125M
+    volumes:
+      - ./config/mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./config/mosquitto/data:/mosquitto/data
+      - ./config/mosquitto/log:/mosquitto/log
+    expose:
+      - 1883
+    ports:
+      - "1883:1883"
+
+volumes:
+  db:
+    driver: local
