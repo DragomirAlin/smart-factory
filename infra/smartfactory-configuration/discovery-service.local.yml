@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: discovery-service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuerUri: http://192.168.1.5:8083/auth/realms/smartfactory
+          jwkSetUri: http://192.168.1.5:8083/auth/realms/smartfactory/protocol/openid-connect/certs
+server:
+  port: 8761
+eureka:
+  instance:
+    hostname: discovery
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://discUser:discPassword@192.168.1.5:8761/eureka/
+  server:
+    enable-self-preservation: false
+
+

@@ -1,0 +1,71 @@
+spring:
+  application:
+    name: gateway
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config
+      uri: 192.168.1.5:8888
+    loadbalancer:
+      ribbon:
+        enabled: true
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuerUri: http://192.168.1.5:8083/auth/realms/smartfactory
+          jwkSetUri: http://192.168.1.5:8083/auth/realms/smartfactory/protocol/openid-connect/certs
+server:
+  port: 8080
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    region: default
+    fetchRegistry: true
+    registry-fetch-interval-seconds: 5
+    serviceUrl:
+      defaultZone: http://discUser:discPassword@192.168.1.5:8761/eureka
+ribbon:
+  eureka:
+    enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+springdoc:
+    api-docs:
+      enabled: false
+    swagger-ui:
+      url: /api.yaml
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      core:
+        registerHealthIndicator: true
+        slidingWindowSize: 2
+        slidingWindowType: TIME_BASED
+        permittedNumberOfCallsInHalfOpenState: 3
+        minimumNumberOfCalls: 1
+        waitDurationInOpenState: 10s
+        failureRateThreshold: 10
+  ratelimiter:
+    instances:
+      core:
+        limitForPeriod: 2
+        limitRefreshPeriod: 1s
+        timeoutDuration: 0
+        registerHealthIndicator: true
+        eventConsumerBufferSize: 100

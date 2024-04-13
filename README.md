@@ -133,7 +133,7 @@ Languages:
 
 ## Organization
 I use Meistertask for organization and planning
-![Tasks](images/organization.png)
+![Tasks](documentation/images/organization.png)
 
 ## Development Tools
 | Name | Description  | 
@@ -200,42 +200,42 @@ systems.
 
 
 ### Eureka Discovery Service
-![Eureka Discovery Service](images/discovery.png)
+![Eureka Discovery Service](documentation/images/discovery.png)
 
 
 ### CI Jenkins for local dev
-![CI Jenkins for local dev](images/jenkins.png)
+![CI Jenkins for local dev](documentation/images/jenkins.png)
 
 ### Kubernetes Deployment
-![Kubernetes Deployment](images/deployment.png)
+![Kubernetes Deployment](documentation/images/deployment.png)
 
 ### Admin Dashboard
-![Admin Dashboard](images/admin.png)
+![Admin Dashboard](documentation/images/admin.png)
 
 ### Admin Dashboard - Services Overview
-![Admin Dashboard Services Overview](images/admin-2.png)
+![Admin Dashboard Services Overview](documentation/images/admin-2.png)
 
 ### Arhitecture V1
-![Initial Arhitecture](images/SmartFactory-Arhitecture-v1.0.0.png)
+![Initial Arhitecture](documentation/images/SmartFactory-Arhitecture-v1.0.0.png)
 
 ### Arhitecture V2
-![Arhitecture V2](images/smartfactory-v2.png)
+![Arhitecture V2](documentation/images/smartfactory-v2.png)
 
 ### Arhitecture V3 - soon
 
 ### CI Pipline
-![CI Pipline](images/dev-pipline.png)
+![CI Pipline](documentation/images/dev-pipline.png)
 
 
 ### Argo CD
-![Argo CD](images/argocd.png)
+![Argo CD](documentation/images/argocd.png)
 
 
 ### Docker Hub
-![Docker Registry](images/dockerhub.png)
+![Docker Registry](documentation/images/dockerhub.png)
 
 ### ELK - Logging
-![Logs](images/elastic.png)
+![Logs](documentation/images/elastic.png)
 
 ### Slack Notifications
-![Slack](images/slack.png)
+![Slack](documentation/images/slack.png)

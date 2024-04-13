@@ -1,0 +1,47 @@
+spring:
+  application:
+    name: subscription-service
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuerUri: ${KEYCLOAK_URL}/auth/realms/smartfactory
+          jwkSetUri: ${KEYCLOAK_URL}/auth/realms/smartfactory/protocol/openid-connect/certs
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config
+      uri: config:8888
+  data:
+    mongodb:
+      database: smartfactory-subscription
+      host: mongo
+      port: 27017
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: admin
+    password: admin
+server:
+  port: 8005
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://discUser:discPassword@discovery:8761/eureka
+smartfactory:
+  rabbitmq:
+    mqtt:
+      exchange: exchange.mqtt
+      queue: queue.mqtt
+      routingkey: routingkey.mqtt
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: acquisition
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuerUri: http://192.168.1.5:8083/auth/realms/smartfactory
+          jwkSetUri: http://192.168.1.5:8083/auth/realms/smartfactory/protocol/openid-connect/certs
+  data:
+    mongodb:
+      database: acquisition
+  rabbitmq:
+    host: 192.168.1.5
+    port: 5672
+    username: admin
+    password: admin
+server:
+  port: 8002
+mqtt:
+  publisher-id: spring-server
+  server: tcp://192.168.1.5:1883
+smartfactory:
+  rabbitmq:
+    mqtt:
+      exchange: mqtt_events
+      subscription:
+        queue: mqtt_subscription_queue
+      gateway:
+        queue: mqtt_gateway_queue
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always

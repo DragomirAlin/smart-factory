@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: subscription
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuerUri: http://192.168.1.5:8083/auth/realms/smartfactory
+          jwkSetUri: http://192.168.1.5:8083/auth/realms/smartfactory/protocol/openid-connect/certs
+  data:
+    mongodb:
+      database: smartfactory-subscription
+  rabbitmq:
+    host: 192.168.1.5
+    port: 5672
+    username: admin
+    password: admin
+server:
+  port: 8005
+smartfactory:
+  rabbitmq:
+    mqtt:
+      acquisition:
+        exchange: mqtt_events
+        queue: mqtt_subscription_queue
+    notification:
+      queue: subscription_notify
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
