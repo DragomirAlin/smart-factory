@@ -1,9 +1,13 @@
-FROM openjdk:latest
+# Use the official OpenJDK 21 base image
+FROM azul/zulu-openjdk:21
+# Set the working directory in the container
+WORKDIR /app
 
-COPY target/*.jar /srv/
-COPY src/main/resources/application.yml /srv/config/
+# Copy the packaged jar file into the container at /app
+COPY target/*.jar /app/subscription-service.jar
 
-EXPOSE 8005
+# Expose the port that the application will run on
+EXPOSE 8082
 
-ENTRYPOINT ["java","-jar","/srv/subscription-0.0.1-SNAPSHOT.jar", "--spring.config.location=file:/srv/config/application.yml"]
-
+# Run the jar file
+CMD ["java", "-jar", "subscription-service.jar"]
