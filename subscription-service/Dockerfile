@@ -7,7 +7,7 @@ WORKDIR /app
 COPY target/*.jar /app/subscription-service.jar
 
 # Expose the port that the application will run on
-EXPOSE 8082
+EXPOSE 8080
 
 # Run the jar file
-CMD ["java", "-jar", "subscription-service.jar"]
+CMD ["java", "-jar", "subscription-service.jar", "--server.port=8080"]
