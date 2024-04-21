@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: user-management-service
+  data:
+    mongodb:
+      uri: mongodb://mongo:27017/user-management
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://keycloak:8083/realms/master
+server:
+  port: 8081
+

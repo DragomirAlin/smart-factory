@@ -3,25 +3,46 @@ services:
   mongo:
     image: mongo:latest
     hostname: mongo
-    container_name: smartfactory
+    container_name: smartfactory_mongodb
     restart: on-failure
+    networks:
+      - smartfactory-net
     ports:
       - "27017:27017"
   keycloak:
     image: quay.io/keycloak/keycloak:21.0
+    hostname: keycloak
     container_name: smartfactory_keycloak
     command:
       - start-dev
     environment:
       - KEYCLOAK_ADMIN=user
       - KEYCLOAK_ADMIN_PASSWORD=password
+    networks:
+      - smartfactory-net
     ports:
       - "8083:8080"
   redis:
     image: redis:5.0.3-alpine
+    hostname: redis
     container_name: smartfactory_redis
+    networks:
+      - smartfactory-net
     ports:
       - "6379:6379"
+  docker-registry:
+    image: registry:2
+    hostname: registry
+    container_name: smartfactory_registry
+    networks:
+      - smartfactory-net
+    ports:
+      - "5001:5000"
+
 volumes:
   db:
     driver: local
+
+networks:
+  smartfactory-net:
+    name: smartfactory-net

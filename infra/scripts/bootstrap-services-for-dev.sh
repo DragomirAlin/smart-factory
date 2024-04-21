@@ -7,8 +7,7 @@ echo "* Bootstrapping required services for development *"
 echo "******************************************"
 echo ""
 
-docker-compose -f ../smartfactory/docker-compose.yml \
-               up -d --remove-orphans
+docker-compose -f ../smartfactory/docker-compose.yml up -d
 
 echo ""
 echo "Services bootstrapped successfully!"

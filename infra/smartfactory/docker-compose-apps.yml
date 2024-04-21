@@ -1,58 +1,21 @@
 version: '3.8'
 
 services:
-  acquisition-service:
-    image: dragomiralin/smartfactory-acquisition:latest
-    hostname: acquisition
-    container_name: sfy-acquisition-service
-    depends_on:
-      - discovery-service
+  user-management-service:
+    image: localhost:5001/user-management-service:local
+    hostname: user-management-service
+    container_name: user-management-service
     pull_policy: always
-    environment:
-      - KEYCLOAK_URL=http://192.168.1.5:8083
+    networks:
+      - smartfactory-net
     ports:
-      - 8002:8002
-  notification-service:
-    image: dragomiralin/smartfactory-notification:latest
-    hostname: notification
-    container_name: notification-service
-    depends_on:
-      - discovery-service
-    pull_policy: always
-    environment:
-      - KEYCLOAK_URL=http://192.168.1.5:8083
-    ports:
-      - 8004:8004
-  subscription-service:
-    image: dragomiralin/smartfactory-subscription:latest
-    hostname: subscription
-    container_name: sfy-subscription-service
-    depends_on:
-      - discovery-service
-    pull_policy: always
-    environment:
-      - KEYCLOAK_URL=http://192.168.1.5:8083
-    ports:
-      - 8005:8005
-  configuration-service:
-    image: dragomiralin/smartfactory-configuration:latest
-    hostname: config
-    container_name: sfy-config-service
-    depends_on:
-      - discovery-service
-    pull_policy: always
-    environment:
-      - KEYCLOAK_URL=http://192.168.1.5:8083
-    ports:
-      - 8888:8888
-  frontend:
-    image: dragomiralin/smartfactory-ui:latest
-    hostname: smartfactory
-    container_name: sfy-frontend
-    pull_policy: always
-    ports:
-      - 4200:80
+      - 8081:8080
 
 volumes:
   db:
     driver: local
+
+networks:
+  smartfactory-net:
+    name: smartfactory-net
+
