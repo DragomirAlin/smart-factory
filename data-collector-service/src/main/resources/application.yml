@@ -1,16 +1,13 @@
 spring:
   application:
-    name: notification-service
-  data:
-    mongodb:
-      uri: mongodb://localhost:27017/notification
+    name: data-collector-service
   security:
     oauth2:
       resourceserver:
         jwt:
           issuer-uri: ${KEYCLOAK_URL:http://localhost:8083}/realms/master
 server:
-  port: 8082
+  port: 8083
 
 user-management-service:
   base-url: http://localhost:8081/api/v1
