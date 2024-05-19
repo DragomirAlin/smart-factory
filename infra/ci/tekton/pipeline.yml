@@ -1,0 +1,93 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: smartfactory-ci-pipeline
+spec:
+  description: |
+    This pipeline clones a git repo, then echoes the README file to the stout.
+  params:
+    - name: REPO_URL
+      type: string
+      description: The git repo URL to clone from.
+    - name: PROJECT_DIR
+      type: string
+      description: The subdirectory to clone from the git repo.
+      default: ""
+    - name: IMAGE
+      type: string
+      description: The image name to build.
+    - name: TAG
+      type: string
+      description: The image tag to build.
+      default: "latest"
+    - name: ACCOUNT
+      type: string
+      description: The docker account to push the image to.
+  workspaces:
+    - name: shared-workspace
+      description: |
+        This workspace contains the cloned repo files, so they can be read by the
+        next task.
+    - name: maven-settings
+      description: |
+        This workspace contains the maven settings file, so it can be used by the
+        maven task.
+    - name: maven-local-m2
+      description: |
+        This workspace contains the maven local repository, so it can be used by the
+        maven task.
+    - name: docker-credentials
+      description: |
+        This workspace contains the docker credentials, so it can be used by the
+        kaniko task.
+  tasks:
+    - name: fetch-repository
+      taskRef:
+        name: git-clone
+      workspaces:
+        - name: output
+          workspace: shared-workspace
+      params:
+        - name: url
+          value: "$(params.REPO_URL)"
+        - name: deleteExisting
+          value: "true"
+    - name: maven-run
+      taskRef:
+        name: maven
+      runAfter:
+        - fetch-repository
+      params:
+        - name: MAVEN_IMAGE
+          value: "maven:3.8.8-eclipse-temurin-21-alpine"
+        - name: CONTEXT_DIR
+          value: "$(params.PROJECT_DIR)"
+        - name: GOALS
+          value:
+            - -DskipTests
+            - clean
+            - package
+      workspaces:
+        - name: maven-settings
+          workspace: maven-settings
+        - name: source
+          workspace: shared-workspace
+        - name: maven-local-repo
+          workspace: maven-local-m2
+    - name: build-push
+      runAfter:
+        - maven-run
+      taskRef:
+        name: kaniko
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+        - name: dockerconfig
+          workspace: docker-credentials
+      params:
+        - name: IMAGE
+          value: "$(params.ACCOUNT)/$(params.IMAGE):$(params.TAG)"
+        - name: DOCKERFILE
+          value: "$(params.PROJECT_DIR)/Dockerfile"
+        - name: CONTEXT
+          value: "$(params.PROJECT_DIR)"

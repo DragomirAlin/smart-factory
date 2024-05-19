@@ -1,0 +1,44 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: smartfactory-ci-subscription-service-
+spec:
+  pipelineRef:
+    name: smartfactory-ci-pipeline
+  podTemplate:
+    securityContext:
+      fsGroup: 65532
+  workspaces:
+    - name: shared-workspace
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 10Gi
+    - name: maven-local-m2
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 10Gi
+    - name: maven-settings
+      emptyDir: { }
+    - name: docker-credentials
+      secret:
+        secretName: docker-credentials
+  params:
+    - name: REPO_URL
+      value: https://github.com/DragomirAlin/smartfactory
+    - name: PROJECT_DIR
+      value: "subscription-service"
+    - name: IMAGE
+      value: "subscription-service"
+    - name: TAG
+      value: "latest"
+    - name: ACCOUNT
+      value: "dragomiralin"
+
